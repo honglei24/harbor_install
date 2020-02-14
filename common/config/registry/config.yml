@@ -25,7 +25,7 @@ http:
 auth:
   token:
     issuer: harbor-token-issuer
-    realm: http://test.harbor.com/service/token
+    realm: https://test.harbor.com/service/token
     rootcertbundle: /etc/registry/root.crt
     service: harbor-registry
 notifications:
