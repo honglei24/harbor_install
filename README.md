@@ -18,15 +18,15 @@
 
 ## 组件
 Harbor在架构上主要由6个组件构成：
-(1)Proxy：Harbor的registry, UI, token等服务，通过一个前置的反向代理统一接收浏览器、Docker客户端的请求，并将请求转发给后端不同的服务。
-(2)Registry： 负责储存Docker镜像，并处理docker push/pull 命令。由于我们要对用户进行访问控制，即不同用户对Docker image有不同的读写权限，Registry会指向一个token服务，强制用户的每次docker pull/push请求都要携带一个合法的token, Registry会通过公钥对token 进行解密验证。
-(3)Core services： 这是Harbor的核心功能，主要提供以下服务：
-1)UI：提供图形化界面，帮助用户管理registry上的镜像（image）, 并对用户进行授权。
-2)webhook：为了及时获取registry 上image状态变化的情况， 在Registry上配置webhook，把状态变化传递给UI模块。
-3)token 服务：负责根据用户权限给每个docker push/pull命令签发token. Docker 客户端向Regiøstry服务发起的请求,如果不包含token，会被重定向到这里，获得token后再重新向Registry进行请求。
-(4)Database：为core services提供数据库服务，负责储存用户权限、审计日志、Docker image分组信息等数据。我们采用外部数据库。
-(5)Job Services：提供镜像远程复制功能，可以把本地镜像同步到其他Harbor实例中。
-(6)Log collector：为了帮助监控Harbor运行，负责收集其他组件的log，供日后进行分析。
+1. Proxy：Harbor的registry, UI, token等服务，通过一个前置的反向代理统一接收浏览器、Docker客户端的请求，并将请求转发给后端不同的服务。
+2. Registry： 负责储存Docker镜像，并处理docker push/pull 命令。由于我们要对用户进行访问控制，即不同用户对Docker image有不同的读写权限，Registry会指向一个token服务，强制用户的每次docker pull/push请求都要携带一个合法的token, Registry会通过公钥对token 进行解密验证。
+3. Core services： 这是Harbor的核心功能，主要提供以下服务：
++ UI：提供图形化界面，帮助用户管理registry上的镜像（image）, 并对用户进行授权。
++ webhook：为了及时获取registry 上image状态变化的情况， 在Registry上配置webhook，把状态变化传递给UI模块。
++ token 服务：负责根据用户权限给每个docker push/pull命令签发token. Docker 客户端向Regiøstry服务发起的请求,如果不包含token，会被重定向到这里，获得token后再重新向Registry进行请求。
+4. Database：为core services提供数据库服务，负责储存用户权限、审计日志、Docker image分组信息等数据。我们采用外部数据库。
+5.ob Services：提供镜像远程复制功能，可以把本地镜像同步到其他Harbor实例中。
+6. Log collector：为了帮助监控Harbor运行，负责收集其他组件的log，供日后进行分析。
 各个组件之间的关系如下图所示：
 ![组件图](./images/harbor-组件图.jpg)
 
