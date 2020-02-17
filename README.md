@@ -1,7 +1,7 @@
 # harbor
+本文整合了harbor部署，升级，软硬件需求和测试相关文档。
 
-## 说明
-本文描述了harbor的部署，升级，软硬件需求。部署主要是参照官方的部署文档，采用online部署的模式来安装harbor组件。
+部署主要是参照官方的部署文档，采用online部署的模式来安装harbor组件。为了简化参数修改，增加了prepre.sh脚本。
 
 官方1.7.0部署参照：https://github.com/goharbor/harbor/blob/v1.7.0/docs/installation_guide.md
 
@@ -104,7 +104,7 @@ docker run -it --rm -v ${harbor_cfg}:/harbor-migration/harbor-cfg/harbor.cfg goh
 ```
 
 ## 回滚
-参照https://github.com/goharbor/harbor/blob/v1.7.5/docs/migration_guide.md#roll-back-from-an-upgrade
+参照：https://github.com/goharbor/harbor/blob/v1.7.5/docs/migration_guide.md#roll-back-from-an-upgrade
 ```
 cd ${work_dir}
 rm harbor -rf
@@ -115,6 +115,7 @@ cd /harbor
 ```
 
 ## registry压力测试
+参照：https://docs.openstack.org/developer/performance-docs/test_results/container_repositories/registry2/index.html
 ```
 # git clone https://gitlab.oneitfarm.com/hl/harbor.git
 # cd harbor
