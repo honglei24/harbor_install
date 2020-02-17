@@ -6,11 +6,11 @@
 官方1.7.0部署参照：https://github.com/goharbor/harbor/blob/v1.7.0/docs/installation_guide.md
 
 ## 部署图
-![部署图](./images/harbor-部署图.jpg)
+![部署图](https://gitlab.oneitfarm.com/hl/harbor/blob/master/images/harbor-部署图.jpg)
 
-一个云平台内部部署两组harbor，两组harbor使用同一组存储和PostgreSQL, harbor包含的组件参照【组件】章节中的实现框内的部分。
+绿色部分属于harbor部署范围，harbor包含的组件参照【组件】章节中的实现框内的部分。
 
-云平台提供：
+蓝色部分由云平台提供：
 * 负载均衡器
 * 共享存储
 * PostgreSQL
@@ -28,7 +28,7 @@ Harbor在架构上主要由6个组件构成：
 (5)Job Services：提供镜像远程复制功能，可以把本地镜像同步到其他Harbor实例中。
 (6)Log collector：为了帮助监控Harbor运行，负责收集其他组件的log，供日后进行分析。
 各个组件之间的关系如下图所示：
-![组件图](./images/harbor-组件图.jpg)
+![组件图](https://gitlab.oneitfarm.com/hl/harbor/blob/master/images/harbor-组件图.jpg)
 
 ## 软硬件需求
 参照
@@ -114,6 +114,12 @@ cd /harbor
 ./install.sh
 ```
 
-
-
-
+## registry压力测试
+```
+# git clone https://gitlab.oneitfarm.com/hl/harbor.git
+# cd harbor
+# vi test.py
+修改test.py里的并发数，habor信息
+# python test.py
+```
+在测试目录下会生成测试报告。后缀为csv的是测试结果。
