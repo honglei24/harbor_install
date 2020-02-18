@@ -124,3 +124,109 @@ cd /harbor
 # python test.py
 ```
 在测试目录下会生成测试报告。后缀为csv的是测试结果。
+
+
+## 创建https证书
+- 获得证书授权
+
+```
+cd /data/cert/
+openssl genrsa -out ca.key 4096
+openssl req -x509 -new -nodes -sha512 -days 3650 -subj "/C=NJ/ST=NanJing/L=NanJing/O=example/OU=Personal/CN=test.harbor.com" -key ca.key -out ca.crt
+```
+
+- 获得服务器证书
+
+假设您的注册表的**主机名**是test.harbor.com，并且其DNS记录指向您正在运行Harbor的主机。在生产环境中，您首先应该从CA获得证书。在测试或开发环境中，您可以使用自己的CA. 证书通常包含.crt文件和.key文件，例如test.harbor.com.crt和test.harbor.com.key
+
+```
+1.创建自己的私钥
+openssl genrsa -out test.harbor.com.key 4096
+
+2.生成证书签名请求
+openssl req -sha512 -new -subj "/C=NJ/ST=NanJing/L=NanJing/O=example/OU=Personal/CN=test.harbor.com" -key test.harbor.com.key -out test.harbor.com.csr
+
+3.生成注册表主机的证书
+cat > v3.ext <<-EOF
+authorityKeyIdentifier=keyid,issuer
+basicConstraints=CA:FALSE
+keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEnciphermentopenssl x509 -in certificate.pem -text -noout
+extendedKeyUsage = serverAuth 
+subjectAltName = @alt_names
+
+[alt_names]
+DNS.1=test.harbor.com
+DNS.2=test.harbor
+DNS.3=harbor
+IP.1=192.168.3.2
+IP.2=192.168.3.3
+EOF
+
+再执行下面命令
+openssl x509 -req -sha512 -days 3650 -extfile v3.ext -CA ca.crt -CAkey ca.key -CAcreateserial -in test.harbor.com.csr -out test.harbor.com.crt
+```
+
+## nginx负载均衡配置
+1. harbor部署， 参照！[部署手册](#部署手册)
+
+2. nginx配置
+增加一个文件，/etc/nginx/conf.d/harbor.conf，内容如下
+```
+upstream harbor {
+    ip_hash;                    # 策略为ip_hash
+    server 192.168.3.2:8443;    # 指定harbor的IP：Port
+    server 192.168.3.3:8443;
+}
+server {
+   listen       80;
+   # 提供访问的域名或者IP
+   server_name  test.harbor.com;
+   return      308 https://$host$request_uri;
+}
+server {
+    listen  443 ssl;
+    server_name test.harbor.com;
+
+    # SSL 证书
+    ssl_certificate ./certs/harbor.crt;     # 测试环境需要手动生成， 参照！[创建https证书](#创建https证书)
+    # SSL 私钥
+    ssl_certificate_key ./certs/harbor.key;
+    client_max_body_size 0;
+    chunked_transfer_encoding on;
+
+    location / {
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_redirect off;
+        proxy_ssl_verify off;
+        proxy_ssl_session_reuse on;
+        proxy_pass https://harbor;
+        proxy_http_version 1.1;
+}
+    location /v2/ {
+        proxy_pass https://harbor/v2/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_ssl_verify off;
+        proxy_ssl_session_reuse on;
+        proxy_buffering off;
+        proxy_request_buffering off;
+    }
+}
+```
+3. 启动nginx
+```
+nginx -s
+```
+
+4. 测试
+* 浏览器访问https://test.harbor.com/
+* docker login 成功
+```
+# docker -D login -u admin -p Harbor12345 test.harbor.com
+......
+Login Succeeded
+```
