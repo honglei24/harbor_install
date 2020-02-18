@@ -45,6 +45,7 @@ https://github.com/goharbor/harbor/edit/master/docs/1.10/install-config/installa
 |OS|
 |---|
 |CentOS 7.4 / Ubuntu 18.04|
+
 安装和升级是基于ubuntu 18.04验证的。
 为了和泰山新村保持版本一致，推荐Centos 7.4
 
