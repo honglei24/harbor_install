@@ -231,3 +231,18 @@ nginx -s
 ......
 Login Succeeded
 ```
+
+## 灾难恢复
+某那个site内的harbor挂掉之后，无法通过同步数据。
+* 首选可以采用恢复harbor的方式。恢复harbor只需要重新执行./install.sh脚本即可。
+* 如果harbor无法恢复，可以通过启动一个registry容器，并挂载/data/registry。通过registry提供的接口来拉取镜像。
+其中/data/registry/是registry挂载的目录。该目录在共享存储上。
+```
+# docker run 
+-d --name=registry  \
+-v /data/registry/:/var/lib/registry  \
+-p 5000:5000 docker.io/registry
+
+# docker pull 127.0.0.1:5000/test/nginx:latest
+```
+
