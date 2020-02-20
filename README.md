@@ -8,13 +8,13 @@
 ## 部署图
 ![部署图](./images/harbor-部署图.jpg)
 
-绿色部分属于harbor部署范围，harbor包含的组件参照！[组件](#组件)章节中的实线框内的部分。同一个site内可以部署多个harbor来达到高可用的目的。初期部署一个。
+绿色部分属于harbor部署范围，harbor包含的组件参照[组件](#组件)章节中的实线框内的部分。同一个site内可以部署多个harbor来达到高可用的目的。初期部署一个。
 
 蓝色部分由云平台提供：
 * 负载均衡器
 * 共享存储
 * PostgreSQL
-* 部署harbor组件所用的服务器（服务器如软硬件配置参照！[软硬件需求](#软硬件需求)）
+* 部署harbor组件所用的服务器（服务器如软硬件配置参照[软硬件需求](#软硬件需求)）
 
 ## 组件
 Harbor在架构上主要由6个组件构成：
@@ -104,6 +104,12 @@ docker run -it --rm -v ${harbor_cfg}:/harbor-migration/harbor-cfg/harbor.cfg goh
 ./install.sh
 ```
 升级过程中采用的是数据库目录整体备份，如果要用数据库工具备份，参照[PostgreSQL升级](./postgre.md#postgre备份)。
+
+阿里云数据迁移步骤：
+https://help.aliyun.com/document_detail/96785.html?spm=a2c4g.11174283.6.942.6c165b83eVvMxW
+
+腾讯云数据迁移步骤：
+https://cloud.tencent.com/document/product/409/4997
 
 
 ## 回滚
