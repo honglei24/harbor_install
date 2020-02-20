@@ -246,7 +246,7 @@ services:
         #- 443:443
       - 4443:4443
     depends_on:
-      - postgresql
+            #- postgresql
       - registry
       - core
       - portal
