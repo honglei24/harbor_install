@@ -255,3 +255,26 @@ Login Succeeded
 # docker pull 127.0.0.1:5000/test/nginx:latest
 ```
 
+## harbor_api工具
+该工具是针对harbor v1.7.0的工具，由于各个版本的API有变化，所以其他版本不能用此工具。
+该工具提供的功能有：
+1. 打印所有项目
+```
+# python harbor_api_tools.py --list-projects
+```
+
+2. 打印所有仓库
+```
+# python harbor_api_tools.py --list-target
+```
+
+3. 创建仓库
+```
+# python harbor_api_tools.py --create-target --target=<target_name> --endpoint=<endpoint> --username=<username> --password=<password>
+```
+
+4. 创建复制任务
+kind目前支持"Manual"和“Immediate”
+```
+# python harbor_api_tools.py --create-policy --target_id=<target_id> --project_id=<project_id> --policy=<policy_name> --kind=<kind>
+```

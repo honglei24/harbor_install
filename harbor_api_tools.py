@@ -118,7 +118,6 @@ def main(argv):
         usage
         sys.exit(2)
 
-    print("username")
     if_create_policy = False
     if_create_target = False
     for opt, arg in opts:
