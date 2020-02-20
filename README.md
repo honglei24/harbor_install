@@ -103,6 +103,8 @@ docker run -it --rm -v ${harbor_cfg}:/harbor-migration/harbor-cfg/harbor.cfg goh
 
 ./install.sh
 ```
+升级过程中采用的是数据库目录整体备份，如果要用数据库工具备份，参照[PostgreSQL升级](./postgre.md#postgre备份)。
+
 
 ## 回滚
 参照：https://github.com/goharbor/harbor/blob/v1.7.5/docs/migration_guide.md#roll-back-from-an-upgrade
@@ -114,6 +116,7 @@ cp -r /my_backup_dir/database /data
 cd /harbor
 ./install.sh
 ```
+升级过程中采用的是数据库目录整体备份，如果要用数据库工具恢复，参照[PostgreSQL恢复](./postgre.md#postgre恢复)。
 
 ## registry压力测试
 参照：https://docs.openstack.org/developer/performance-docs/test_results/container_repositories/registry2/index.html
