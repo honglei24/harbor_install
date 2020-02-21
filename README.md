@@ -160,7 +160,7 @@ openssl req -sha512 -new -subj "/C=NJ/ST=NanJing/L=NanJing/O=example/OU=Personal
 cat > v3.ext <<-EOF
 authorityKeyIdentifier=keyid,issuer
 basicConstraints=CA:FALSE
-keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEnciphermentopenssl x509 -in certificate.pem -text -noout
+keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEnciphermentopenssl
 extendedKeyUsage = serverAuth 
 subjectAltName = @alt_names
 

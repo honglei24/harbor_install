@@ -7,7 +7,7 @@ import json
 import sys
 import getopt
 
-harbor_url = "https://test.harbor.com"
+harbor_url = "http://test.harbor.com"
 admin_username = "admin"
 admin_password = "Harbor12345"
 
@@ -46,8 +46,8 @@ class Harbor(object):
     def list_target(self):
         target_data = self.get_targets()
         for i in target_data:
-            target_id = i.get('name')
-            target_name = i.get('id')
+            target_id = i.get('id')
+            target_name = i.get('name')
             print("\033[0;32m target name:{}\ttarget id:{}\033[0m".format(target_name, target_id))
 
     def create_targets(self, endpoint="https://test.harbor.com", name="remote", username="admin",
@@ -77,9 +77,8 @@ class Harbor(object):
     def create_policy(self, targets=[], projects=[], name="replication", kind="Manual"):
         params = {"name": name, "projects": projects, "targets": targets, "trigger": {"kind": kind}}
         url = self.url + "/api/policies/replication"
-        # print(params)
         r_target = requests.post(url=url, auth=self.auth, verify=False, json=params)
-        print(r_target)
+        # print(r_target)
         if r_target.status_code != 201:
             print("\033[0;31m create policy {} failed.\033[0m".format(name))
             return
@@ -148,7 +147,6 @@ def main(argv):
         elif opt in ("-p", "--project_id"):
             p_id = arg
         elif opt in "--create-policy":
-            print("aaa")
             if_create_policy = True
 
     if if_create_target:

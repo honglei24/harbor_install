@@ -1,7 +1,7 @@
 LOG_LEVEL=info
 CONFIG_PATH=/etc/core/app.conf
-CORE_SECRET=vH4fCucNKYIHQ2KS
-JOBSERVICE_SECRET=Zh2RpstxOgTJMoqy
+CORE_SECRET=A1t2JWm65CIgYagW
+JOBSERVICE_SECRET=gzMnOuwlIkgT42iK
 ADMINSERVER_URL=http://adminserver:8080
 UAA_CA_ROOT=/etc/core/certificates/uaa_ca.pem
 _REDIS_URL=redis:6379,100,

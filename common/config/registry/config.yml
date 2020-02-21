@@ -25,7 +25,7 @@ http:
 auth:
   token:
     issuer: harbor-token-issuer
-    realm: https://192.168.3.2/service/token
+    realm: http://192.168.3.2/service/token
     rootcertbundle: /etc/registry/root.crt
     service: harbor-registry
 notifications:
