@@ -12,7 +12,7 @@ services:
         aliases:
           - harbor-db
   notary-server:
-    image: goharbor/notary-server-photon:v0.6.1-v1.7.1
+    image: goharbor/notary-server-photon:v0.6.1-v1.7.6
     container_name: notary-server
     restart: always
     cap_drop:
@@ -37,7 +37,7 @@ services:
         syslog-address: "tcp://127.0.0.1:1514"
         tag: "notary-server"
   notary-signer:
-    image: goharbor/notary-signer-photon:v0.6.1-v1.7.1
+    image: goharbor/notary-signer-photon:v0.6.1-v1.7.6
     container_name: notary-signer
     restart: always
     cap_drop:
